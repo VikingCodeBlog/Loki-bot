@@ -6,6 +6,7 @@ const client = new Discord.Client();
 
 //Init enviroments variables
 if (process.env.NODE_ENV !== 'production') {
+  console.log("Starting production app")
   require('dotenv').config();
 }
 
