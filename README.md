@@ -1,3 +1,5 @@
+![](https://i.imgur.com/QiWxvs4.png)
+
 # Introduction
 
 This project is a Discord bot designed exclusively for the VikingCodeBlog discord channel..
