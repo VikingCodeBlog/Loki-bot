@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
 } else {
   console.log("Starting production app")
 }
-
+console.log(process.env.MONGOURI)
 //Init mongo database
 const db = require('./src/db/index');
 
