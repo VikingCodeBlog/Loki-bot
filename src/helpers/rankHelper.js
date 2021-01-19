@@ -41,7 +41,8 @@ function checkRank(msg) {
         if (isValidRank) {
 
           //Comprueba si el usuario que envió el mensaje tiene permisos de administrador
-          if (msg.member.hasPermission("ADMINISTRATOR")) {
+          if (!msg.member.hasPermission("ADMINISTRATOR")) {
+            console.log("Is not admin");
             //Comprueba si el autor del mensaje es un bot
             if (msg.author.bot) return;
 

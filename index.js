@@ -22,7 +22,11 @@ client.on('message', msg => {
   if (msg.content === 'ping') {
     msg.reply('pong')
   }
-
+  if(msg.member.hasPermission("ADMINISTRATOR")){
+    console.log("Is admin INDEx");
+  }else{
+    console.log("Is not admin INDEX");
+  }
   if (msg.content.length >= process.env.MINMESSAGELENGTHTORANK) {
     rankHelper.checkRank(msg);
   }
