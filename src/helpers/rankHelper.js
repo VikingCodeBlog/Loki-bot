@@ -41,11 +41,12 @@ function checkRank(msg) {
         if (isValidRank) {
 
           //Comprueba si el usuario que envió el mensaje tiene permisos de administrador
-          if (msg.member.hasPermission("ADMINISTRATOR")) {
+          if (!msg.member.hasPermission("ADMINISTRATOR")) {
             //Comprueba si el autor del mensaje es un bot
             if (msg.author.bot) return;
             //Le avisa al usuario que subio de nivel en un canal especifico
             const messageAuthor = msg.author;
+            if(!process.env.LEVELUPCHANNELID) return announcementsChannel.send(`Por favor ponga un canal el id del canal de anuncios en el archivo .env `);
             const announcementsChannel = msg.client.channels.cache.get(process.env.LEVELUPCHANNELID);
             announcementsChannel.send(`GG, ${messageAuthor.toString()} has subido de Nivel! `);
             roleHelper.addNewRole(msg);
