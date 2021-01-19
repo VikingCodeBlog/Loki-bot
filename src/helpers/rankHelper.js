@@ -46,7 +46,7 @@ function checkRank(msg) {
             if (msg.author.bot) return;
             //Le avisa al usuario que subio de nivel en un canal especifico
             const messageAuthor = msg.author;
-            const announcementsChannel = msg.client.channels.cache.get('799729316753702955');
+            const announcementsChannel = msg.client.channels.cache.get(process.env.LEVELUPCHANNELID);
             announcementsChannel.send(`GG, ${messageAuthor.toString()} has subido de Nivel! `);
             roleHelper.addNewRole(msg);
           }
