@@ -41,24 +41,28 @@ function checkRank(msg) {
         if (isValidRank) {
 
           //Comprueba si el usuario que envió el mensaje tiene permisos de administrador
-          if (!msg.member.hasPermission("ADMINISTRATOR")) {
+          if (msg.member.hasPermission("ADMINISTRATOR")) {
             //Comprueba si el autor del mensaje es un bot
             if (msg.author.bot) return;
 
             //Check if announce channel is defined
-            if (!process.env.LEVELUPCHANNELID){
-              console.error("Announce channel is not defined");
+            if (!process.env.LEVELUPCHANNELID) {
+              
+              const messageAuthor = msg.author;
+              //Le avisa al usuario que subio de nivel en un canal especifico
+              msg.channel.send(`GG, ${messageAuthor.toString()} has subido de Nivel! `);
+              roleHelper.addNewRole(msg);
+              console.info("Announce channel is not defined");
 
-               return msg.channel.send(`Por favor agregue el id del canal de anuncioes en el archivo .env `);
-            }else{
+            } else {
               //Le avisa al usuario que subio de nivel en un canal especifico
               const messageAuthor = msg.author;
               const announcementsChannel = msg.client.channels.cache.get(process.env.ANNOUNCECHANNELID);
               announcementsChannel.send(`GG, ${messageAuthor.toString()} has subido de Nivel! `);
               roleHelper.addNewRole(msg);
-            } 
+            }
 
-          }else{
+          } else {
             console.info(`${msg.author.toString()} is admin`);
           }
 
