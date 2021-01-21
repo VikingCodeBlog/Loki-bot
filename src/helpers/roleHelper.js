@@ -23,7 +23,9 @@ function addNewRole(msg) {
   }
 
   const nextRole = getNextRole(actualHigherRole, msg.guild.roles);
-  msg.member.roles.add(nextRole);
+  if (nextRole) {
+    msg.member.roles.add(nextRole);
+  }
 }
 
 module.exports = {

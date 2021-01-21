@@ -33,7 +33,6 @@ function hasToIncreaseRank(rank, msg) {
   const now = new Date();
   const lastUpdate = new Date(rank[0].lastUpdate);
   const isValidTime = (now - lastUpdate) > process.env.INCREASERANKINTERVAL;
-
   if (!isValidTime) {
     return false;
   }
@@ -43,14 +42,21 @@ function hasToIncreaseRank(rank, msg) {
     return false
   }
 
-  const isAdmin = msg.member.hasPermission("ADMINISTRATOR");
-  if (isAdmin) {
-    return process.env.RANKADMINS == 'true';
+  const allowBot = process.env.RANKADMINS == 'true';
+  const allowAdmin = process.env.RANKADMINS == 'true';
+  const isAdmin = msg.member.hasPermission("ADMINISTRATOR") ;
+  const isBot = msg.author.bot;
+
+  if (allowAdmin && !allowBot) {
+    return !isBot;
   }
 
-  const isBot = msg.author.bot;
-  if (isBot) {
-    return process.env.RANKBOTS == 'true';
+  if (!allowAdmin && allowBot) {
+    return !isAdmin;
+  }
+
+  if (!allowAdmin && !allowBot) {
+    return !isAdmin && !isBot;
   }
 
   return true;
