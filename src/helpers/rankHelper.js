@@ -1,5 +1,6 @@
 const UserRank = require('../db/models/userRank')
 const roleHelper = require('./roleHelper')
+const channelHelper = require('./channelHelper')
 
 function increaseUserRank(member) {
   UserRank.findOneAndUpdate({
@@ -28,51 +29,55 @@ function getUserRank(member) {
   })
 }
 
-function checkRank(msg) {
+function hasToIncreaseRank(rank, msg) {
   const now = new Date();
+  const lastUpdate = new Date(rank[0].lastUpdate);
+  const isValidTime = (now - lastUpdate) > process.env.INCREASERANKINTERVAL;
+  if (!isValidTime) {
+    return false;
+  }
+
+  const isCorrectInterval = ((rank[0].rank + 1) % process.env.INCREASEROLEBYRANKINTERVAL) === 0;
+  if (!isCorrectInterval) {
+    return false
+  }
+
+  const allowBot = process.env.RANKADMINS == 'true';
+  const allowAdmin = process.env.RANKADMINS == 'true';
+  const isAdmin = msg.member.hasPermission("ADMINISTRATOR") ;
+  const isBot = msg.author.bot;
+
+  if (allowAdmin && !allowBot) {
+    return !isBot;
+  }
+
+  if (!allowAdmin && allowBot) {
+    return !isAdmin;
+  }
+
+  if (!allowAdmin && !allowBot) {
+    return !isAdmin && !isBot;
+  }
+
+  return true;
+}
+
+function checkRank(msg) {
   getUserRank(msg.member).then((rank) => {
-    if (rank && rank.length) {
-      const lastUpdate = new Date(rank[0].lastUpdate);
-      const isValidTime = (now - lastUpdate) > process.env.INCREASERANKINTERVAL;
-      if (isValidTime) {
-        increaseUserRank(msg.member);
-
-        const isValidRank = ((rank[0].rank + 1) % process.env.INCREASEROLEBYRANKINTERVAL) === 0;
-        if (isValidRank) {
-
-          //Comprueba si el usuario que envió el mensaje tiene permisos de administrador
-          if (!msg.member.hasPermission("ADMINISTRATOR")) {
-            console.log("Is not admin");
-            //Comprueba si el autor del mensaje es un bot
-            if (msg.author.bot) return;
-
-            //Check if announce channel is defined
-            if (!process.env.LEVELUPCHANNELID) {
-              
-              const messageAuthor = msg.author;
-              //Le avisa al usuario que subio de nivel en un canal especifico
-              msg.channel.send(`GG, ${messageAuthor.toString()} has subido de Nivel! `);
-              roleHelper.addNewRole(msg);
-              console.info("Announce channel is not defined");
-
-            } else {
-              //Le avisa al usuario que subio de nivel en un canal especifico
-              const messageAuthor = msg.author;
-              const announcementsChannel = msg.client.channels.cache.get(process.env.ANNOUNCECHANNELID);
-              announcementsChannel.send(`GG, ${messageAuthor.toString()} has subido de Nivel! `);
-              roleHelper.addNewRole(msg);
-            }
-
-          } else {
-            console.info(`${msg.author.toString()} is admin`);
-          }
-
-
-        }
-      }
-    } else {
-      console.log('create')
+    const hadRank = rank && rank.length;
+    if (!hadRank) {
       createUserRank(msg.member, 0);
+      return;
+    }
+
+    if (hasToIncreaseRank(rank, msg)) {
+      increaseUserRank(msg.member);
+      roleHelper.addNewRole(msg);
+      const announcementsChannel = channelHelper.getAnnouncementsChanel(msg);
+      const msgLevelUp = process.env.MSGLEVELUP;
+      const userKey = process.env.MSGUSERKEYWORD;
+      const replMsg = msgLevelUp.replace(userKey, msg.author.toString());
+      announcementsChannel.send(replMsg);
     }
   });
 }
