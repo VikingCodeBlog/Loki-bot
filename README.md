@@ -20,6 +20,10 @@ Loki-bot connect to a mongodb, you can use [Atlas](https://www.mongodb.com/)
 
 ## SetUp bot and set your enviroment variables
 First of all, you need to create a bot in [https://discord.com/developers](https://discord.com/developers)
+
+And allow this checks in bot config
+![Privileged](https://i.imgur.com/pJQ2fY9.png)
+
 Create a .env file in your project.
 
 | Key   |      Description      |
