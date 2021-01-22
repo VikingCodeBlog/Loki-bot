@@ -7,7 +7,7 @@ function getHigherRole(roles) {
 }
 
 function checkisMaxRole(role) {
-  return role.name === process.env.MAXROLENAME;
+  return role.name === process.env.MAX_ROLE_NAME;
 }
 
 function getNextRole(role, guildRoles) {

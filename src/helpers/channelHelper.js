@@ -1,6 +1,6 @@
 function getAnnouncementsChannel(msg) {
-  if (process.env.ANNOUNCELEVELCHANNELID) {
-    const channel = msg.client.channels.cache.get(process.env.ANNOUNCELEVELCHANNELID);
+  if (process.env.ANNOUNCE_ROLE_CHANNEL_ID) {
+    const channel = msg.client.channels.cache.get(process.env.ANNOUNCE_ROLE_CHANNEL_ID);
     return channel || msg.channel;
   }
 
@@ -8,8 +8,8 @@ function getAnnouncementsChannel(msg) {
 }
 
 function getWelcomeChannel(member) {
-  if (process.env.WELCOMECHANNELID) {
-    const channel = member.guild.channels.cache.get(process.env.WELCOMECHANNELID);
+  if (process.env.WELCOME_CHANNEL_ID) {
+    const channel = member.guild.channels.cache.get(process.env.WELCOME_CHANNEL_ID);
     return channel || member.channel;
   }
 

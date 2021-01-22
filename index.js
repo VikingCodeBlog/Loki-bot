@@ -28,7 +28,7 @@ client.on('message', msg => {
     rankHelper.sendUserRank(msg);
   }
 
-  if (msg.content.length >= process.env.MINMESSAGELENGTHTORANK) {
+  if (msg.content.length >= process.env.MIN_MESSAGE_LENGTH_TO_RANK) {
     rankHelper.checkRank(msg);
   }
 });

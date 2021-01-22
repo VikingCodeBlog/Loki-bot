@@ -30,36 +30,36 @@ Create a .env file in your project.
 |----------|:-------------:|
 |**Bot config:**|
 | TOKEN | Is the bot token you can find in https://discord.com/developers/applications/{YourBot}/bot |
-| MONGOURI | Your mongo database |
-| MSGUSERKEYWORD | Keyword that will be replaced from the message to the user with their name |
+| MONGO_URI | Your mongo database |
+| MSG_USER_KEY | Keyword that will be replaced from the message to the user with their name |
 |**Auto role by rank config:**|
-| MAXROLENAME | The maximum role that the bot can promote a user. |
-| INCREASERANKINTERVAL | The time between messages that will be valued to rank up to users. |
-| INCREASEROLEBYRANKINTERVAL | How often will a user be promoted |
-| MINMESSAGELENGTHTORANK | Minimum length of comments for loki-bot to take them into account |
-| RANKADMINS | Set it to true if you want the bot rank system to work with ADMINS |
-| RANKBOTS | Set it to true if you want the bot rank system to work with BOTS |
-| MSGLEVELUP | Message that the bot will send to a user when they level up |
-| ANNOUNCELEVELCHANNELID | Channel ID to send a new role message|
+| MAX_ROLE_NAME | The maximum role that the bot can promote a user. |
+| INCREASE_RANK_INTERVAL | The time between messages that will be valued to rank up to users. |
+| INCREASE_ROLE_BY_RANK_INTERVAL | How often will a user be promoted |
+| MIN_MESSAGE_LENGTH_TO_RANK | Minimum length of comments for loki-bot to take them into account |
+| RANK_ADMINS | Set it to true if you want the bot rank system to work with ADMINS |
+| RANK_BOTS | Set it to true if you want the bot rank system to work with BOTS |
+| MSG_LEVELUP | Message that the bot will send to a user when they level up |
+| ANNOUNCE_ROLE_CHANNEL_ID | Channel ID to send a new role message|
 |**Welcome new user config:**|
-| WELCOMECHANNELID | Channel ID to send a welcome message |
-| MSGWELCOME | Welcome message |
+| WELCOME_CHANNEL_ID | Channel ID to send a welcome message |
+| MSG_WELCOME | Welcome message |
 
 Example .env file:
 ```
 TOKEN='asdkjfgldjfg'
-MONGOURI='mongodb+srv://user:pass@rute/loki?retryWrites=true&w=majority'
-MSGUSERKEYWORD='$USUARIO'
+MONGO_URI='mongodb+srv://user:pass@rute/loki?retryWrites=true&w=majority'
+MSG_USER_KEY='$USUARIO'
 
-MAXROLENAME=rol3
-RANKADMINS=true
-RANKBOTS=false
-INCREASERANKINTERVAL=300000
-INCREASEROLEBYRANKINTERVAL=10
-MINMESSAGELENGTHTORANK=5
-ANNOUNCELEVELCHANNELID='37897437473989229'
-MSGLEVELUP='GG, $USUARIO HAS SUBIDO DE NIVEL!'
+MAX_ROLE_NAME=rol3
+RANK_ADMINS=true
+RANK_BOTS=false
+INCREASE_RANK_INTERVAL=300000
+INCREASE_ROLE_BY_RANK_INTERVAL=10
+MIN_MESSAGE_LENGTH_TO_RANK=5
+ANNOUNCE_ROLE_CHANNEL_ID='37897437473989229'
+MSG_LEVELUP='GG, $USUARIO HAS SUBIDO DE NIVEL!'
 
-WELCOMECHANNELID='2983749823749567'
-MSGWELCOME='Welcome, $USUARIO'
+WELCOME_CHANNEL_ID='2983749823749567'
+MSG_WELCOME='Welcome, $USUARIO'
 ```

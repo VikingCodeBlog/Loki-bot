@@ -32,18 +32,18 @@ function getUserRank(member) {
 function hasToIncreaseRank(rank, msg) {
   const now = new Date();
   const lastUpdate = new Date(rank[0].lastUpdate);
-  const isValidTime = (now - lastUpdate) > process.env.INCREASERANKINTERVAL;
+  const isValidTime = (now - lastUpdate) > process.env.INCREASE_RANK_INTERVAL;
   if (!isValidTime) {
     return false;
   }
 
-  const isCorrectInterval = ((rank[0].rank + 1) % process.env.INCREASEROLEBYRANKINTERVAL) === 0;
+  const isCorrectInterval = ((rank[0].rank + 1) % process.env.INCREASE_ROLE_BY_RANK_INTERVAL) === 0;
   if (!isCorrectInterval) {
     return false;
   }
 
-  const allowBot = process.env.RANKBOTS == 'true';
-  const allowAdmin = process.env.RANKADMINS == 'true';
+  const allowBot = process.env.RANK_BOTS == 'true';
+  const allowAdmin = process.env.RANK_ADMINS == 'true';
   const isAdmin = msg.member.hasPermission("ADMINISTRATOR") ;
   const isBot = msg.author.bot;
 
@@ -70,8 +70,8 @@ function checkRank(msg) {
       increaseUserRank(msg.member);
       roleHelper.addNewRole(msg);
       const announcementsChannel = channelHelper.getAnnouncementsChannel(msg);
-      const msgLevelUp = process.env.MSGLEVELUP;
-      const userKey = process.env.MSGUSERKEYWORD;
+      const msgLevelUp = process.env.MSG_LEVELUP;
+      const userKey = process.env.MSG_USER_KEY;
       const replMsg = msgLevelUp.replace(userKey, msg.author.toString());
       announcementsChannel.send(replMsg);
     }
