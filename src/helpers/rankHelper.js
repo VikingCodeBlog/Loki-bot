@@ -20,13 +20,13 @@ function createUserRank(member, rank) {
     lastUpdate: new Date()
   });
 
-  userRank.save()
+  userRank.save();
 }
 
 function getUserRank(member) {
   return UserRank.find({
     userId: `${member.user.id}-${member.guild.id}`
-  })
+  });
 }
 
 function hasToIncreaseRank(rank, msg) {
@@ -39,7 +39,7 @@ function hasToIncreaseRank(rank, msg) {
 
   const isCorrectInterval = ((rank[0].rank + 1) % process.env.INCREASEROLEBYRANKINTERVAL) === 0;
   if (!isCorrectInterval) {
-    return false
+    return false;
   }
 
   const allowBot = process.env.RANKBOTS == 'true';
@@ -78,9 +78,17 @@ function checkRank(msg) {
   });
 }
 
+function sendUserRank(msg) {
+  getUserRank(msg.member).then((rank) => {
+    const msgRank = process.env.MSGRANK.replace(process.env.MSGRANKKWYWORD, rank[0].rank);
+    msg.reply(msgRank);
+  });    
+}
+
 module.exports = {
   increaseUserRank,
   createUserRank,
   getUserRank,
-  checkRank
+  checkRank,
+  sendUserRank
 }

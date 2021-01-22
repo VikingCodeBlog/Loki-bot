@@ -24,6 +24,10 @@ client.on('message', msg => {
     msg.reply('pong')
   }
 
+  if (msg.content === 'rank') {
+    rankHelper.sendUserRank(msg);
+  }
+
   if (msg.content.length >= process.env.MINMESSAGELENGTHTORANK) {
     rankHelper.checkRank(msg);
   }
