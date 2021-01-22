@@ -42,7 +42,7 @@ function hasToIncreaseRank(rank, msg) {
     return false
   }
 
-  const allowBot = process.env.RANKADMINS == 'true';
+  const allowBot = process.env.RANKBOTS == 'true';
   const allowAdmin = process.env.RANKADMINS == 'true';
   const isAdmin = msg.member.hasPermission("ADMINISTRATOR") ;
   const isBot = msg.author.bot;
