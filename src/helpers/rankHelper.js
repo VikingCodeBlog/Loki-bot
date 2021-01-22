@@ -47,16 +47,12 @@ function hasToIncreaseRank(rank, msg) {
   const isAdmin = msg.member.hasPermission("ADMINISTRATOR") ;
   const isBot = msg.author.bot;
 
-  if (allowAdmin && !allowBot) {
-    return !isBot;
+  if (!allowBot && isBot) {
+    return false;
   }
 
-  if (!allowAdmin && allowBot) {
-    return !isAdmin;
-  }
-
-  if (!allowAdmin && !allowBot) {
-    return !isAdmin && !isBot;
+  if (!allowAdmin && isAdmin) {
+    return false;
   }
 
   return true;
@@ -73,7 +69,7 @@ function checkRank(msg) {
     if (hasToIncreaseRank(rank, msg)) {
       increaseUserRank(msg.member);
       roleHelper.addNewRole(msg);
-      const announcementsChannel = channelHelper.getAnnouncementsChanel(msg);
+      const announcementsChannel = channelHelper.getAnnouncementsChannel(msg);
       const msgLevelUp = process.env.MSGLEVELUP;
       const userKey = process.env.MSGUSERKEYWORD;
       const replMsg = msgLevelUp.replace(userKey, msg.author.toString());

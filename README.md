@@ -27,6 +27,7 @@ Create a .env file in your project.
 |**Bot config:**|
 | TOKEN | Is the bot token you can find in https://discord.com/developers/applications/{YourBot}/bot |
 | MONGOURI | Your mongo database |
+| MSGUSERKEYWORD | Keyword that will be replaced from the message to the user with their name |
 |**Auto role by rank config:**|
 | MAXROLENAME | The maximum role that the bot can promote a user. |
 | INCREASERANKINTERVAL | The time between messages that will be valued to rank up to users. |
@@ -35,12 +36,16 @@ Create a .env file in your project.
 | RANKADMINS | Set it to true if you want the bot rank system to work with ADMINS |
 | RANKBOTS | Set it to true if you want the bot rank system to work with BOTS |
 | MSGLEVELUP | Message that the bot will send to a user when they level up |
-| MSGUSERKEYWORD | Keyword that will be replaced from the message to the user with their name |
+| ANNOUNCELEVELCHANNELID | Channel ID to send a new role message|
+|**Welcome new user config:**|
+| WELCOMECHANNELID | Channel ID to send a welcome message |
+| MSGWELCOME | Welcome message |
 
 Example .env file:
 ```
 TOKEN='asdkjfgldjfg'
 MONGOURI='mongodb+srv://user:pass@rute/loki?retryWrites=true&w=majority'
+MSGUSERKEYWORD='$USUARIO'
 
 MAXROLENAME=rol3
 RANKADMINS=true
@@ -48,7 +53,9 @@ RANKBOTS=false
 INCREASERANKINTERVAL=300000
 INCREASEROLEBYRANKINTERVAL=10
 MINMESSAGELENGTHTORANK=5
-
-MSGUSERKEYWORD='$USUARIO'
+ANNOUNCELEVELCHANNELID='37897437473989229'
 MSGLEVELUP='GG, $USUARIO HAS SUBIDO DE NIVEL!'
+
+WELCOMECHANNELID='2983749823749567'
+MSGWELCOME='Welcome, $USUARIO'
 ```

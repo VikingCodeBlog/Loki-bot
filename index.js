@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const rankHelper = require('./src/helpers/rankHelper');
+const welcomeHelper = require('./src/helpers/welcomeHelper');
 
 //Init discord client
 const client = new Discord.Client();
@@ -26,6 +27,10 @@ client.on('message', msg => {
   if (msg.content.length >= process.env.MINMESSAGELENGTHTORANK) {
     rankHelper.checkRank(msg);
   }
+});
+
+client.on('guildMemberAdd', member => {
+  welcomeHelper.sendWelcome(member);
 });
 
 client.login(process.env.TOKEN);
