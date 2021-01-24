@@ -28,6 +28,11 @@ function addNewRole(msg) {
   }
 }
 
+function hasToIncreaseRole(rank) {
+  return ((rank[0].rank + 1) % Number.parseInt(process.env.INCREASE_ROLE_BY_RANK_INTERVAL)) === 0;
+}
+
 module.exports = {
-  addNewRole
+  addNewRole,
+  hasToIncreaseRole
 }

@@ -44,7 +44,7 @@ function hasToIncreaseRank(rank, msg) {
 
   const allowBot = process.env.RANK_BOTS == 'true';
   const allowAdmin = process.env.RANK_ADMINS == 'true';
-  const isAdmin = msg.member.hasPermission("ADMINISTRATOR") ;
+  const isAdmin = msg.member.hasPermission("ADMINISTRATOR");
   const isBot = msg.author.bot;
 
   if (!allowBot && isBot) {
@@ -68,12 +68,14 @@ function checkRank(msg) {
 
     if (hasToIncreaseRank(rank, msg)) {
       increaseUserRank(msg.member);
-      roleHelper.addNewRole(msg);
-      const announcementsChannel = channelHelper.getAnnouncementsChannel(msg);
-      const msgLevelUp = process.env.MSG_LEVELUP;
-      const userKey = process.env.MSG_USER_KEY;
-      const replMsg = msgLevelUp.replace(userKey, msg.author.toString());
-      announcementsChannel.send(replMsg);
+      if (roleHelper.hasToIncreaseRole(rank)) {
+        roleHelper.addNewRole(msg);
+        const announcementsChannel = channelHelper.getAnnouncementsChannel(msg);
+        const msgLevelUp = process.env.MSG_LEVELUP;
+        const userKey = process.env.MSG_USER_KEY;
+        const replMsg = msgLevelUp.replace(userKey, msg.author.toString());
+        announcementsChannel.send(replMsg);
+      }
     }
   });
 }
@@ -82,7 +84,7 @@ function sendUserRank(msg) {
   getUserRank(msg.member).then((rank) => {
     const msgRank = process.env.MSGRANK.replace(process.env.MSGRANKKWYWORD, rank[0].rank);
     msg.reply(msgRank);
-  });    
+  });
 }
 
 module.exports = {
