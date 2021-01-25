@@ -11,10 +11,10 @@ function checkisMaxRole(role) {
 }
 
 function getNextRole(role, guildRoles) {
-  return guildRoles.cache.find((r) => r.rawPosition === role.rawPosition + 1);
+  return guildRoles.cache.find((guildRole) => guildRole.rawPosition === role.rawPosition + 1);
 }
 
-function addNewRole(msg) {
+function addNextRoleToMember(msg) {
   const actualHigherRole = getHigherRole(msg.member.roles);
   const isMaxRole = checkisMaxRole(actualHigherRole);
 
@@ -28,11 +28,24 @@ function addNewRole(msg) {
   }
 }
 
+function getInitialRole(guildRoles) {
+  return guildRoles.cache.find((guildRole) => guildRole.name === process.env.INITIAL_ROLE);
+}
+
+function addInitialRole(member) {
+  const initialRole = getInitialRole(member.guild.roles);
+
+  if (initialRole) {
+    member.roles.add(initialRole);
+  }
+}
+
 function hasToIncreaseRole(rank) {
   return ((rank[0].rank + 1) % Number.parseInt(process.env.INCREASE_ROLE_BY_RANK_INTERVAL)) === 0;
 }
 
 module.exports = {
-  addNewRole,
-  hasToIncreaseRole
+  addNextRoleToMember,
+  hasToIncreaseRole,
+  addInitialRole
 }

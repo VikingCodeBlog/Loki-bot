@@ -69,7 +69,7 @@ function checkRank(msg) {
     if (hasToIncreaseRank(rank, msg)) {
       increaseUserRank(msg.member);
       if (roleHelper.hasToIncreaseRole(rank)) {
-        roleHelper.addNewRole(msg);
+        roleHelper.addNextRoleToMember(msg);
         const announcementsChannel = channelHelper.getAnnouncementsChannel(msg);
         const msgLevelUp = process.env.MSG_LEVELUP;
         const userKey = process.env.MSG_USER_KEY;

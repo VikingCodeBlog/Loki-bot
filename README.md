@@ -44,6 +44,8 @@ Create a .env file in your project.
 |**Welcome new user config:**|
 | WELCOME_CHANNEL_ID | Channel ID to send a welcome message |
 | MSG_WELCOME | Welcome message |
+|**Initial role config:**|
+| INITIAL_ROLE | Loki will assign this role to new users |
 
 Example .env file:
 ```
@@ -62,4 +64,6 @@ MSG_LEVELUP='GG, $USUARIO HAS SUBIDO DE NIVEL!'
 
 WELCOME_CHANNEL_ID='2983749823749567'
 MSG_WELCOME='Welcome, $USUARIO'
+
+INITIAL_ROLE=Gusano
 ```

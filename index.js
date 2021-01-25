@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const rankHelper = require('./src/helpers/rankHelper');
 const welcomeHelper = require('./src/helpers/welcomeHelper');
+const roleHelper = require('./src/helpers/roleHelper');
 
 //Init discord client
 const client = new Discord.Client();
@@ -34,6 +35,7 @@ client.on('message', msg => {
 });
 
 client.on('guildMemberAdd', member => {
+  roleHelper.addInitialRole(member);
   welcomeHelper.sendWelcome(member);
 });
 
