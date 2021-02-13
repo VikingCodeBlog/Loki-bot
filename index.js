@@ -1,10 +1,14 @@
 const Discord = require('discord.js');
+
 const rankHelper = require('./src/helpers/rankHelper');
 const welcomeHelper = require('./src/helpers/welcomeHelper');
 const roleHelper = require('./src/helpers/roleHelper');
+const musicHelper = require('./src/helpers/musicHelper');
 
 //Init discord client
 const client = new Discord.Client();
+
+
 
 //Init enviroments variables
 if (process.env.NODE_ENV !== 'production') {
@@ -15,23 +19,44 @@ if (process.env.NODE_ENV !== 'production') {
 
 //Init mongo database
 const db = require('./src/db/index');
+//Get command prefix
+const prefix = process.env.COMMAND_PREFIX;
+
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
+  if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+
+  const args = msg.content.slice(prefix.length).trim().split(/ +/);
+  const command = args.shift().toLowerCase();
+
+  if (command === 'ping') {
     msg.reply('pong')
   }
 
-  if (msg.content === 'rank') {
+  if (command === 'rank') {
     rankHelper.sendUserRank(msg);
   }
 
   if (msg.content.length >= process.env.MIN_MESSAGE_LENGTH_TO_RANK) {
     rankHelper.checkRank(msg);
   }
+
+  //Music Commands
+
+  if (msg.content.startsWith(`${prefix}play`)) {
+    musicHelper.execute(msg);
+    return;
+  } else if (msg.content.startsWith(`${prefix}skip`)) {
+    musicHelper.skip(msg);
+    return;
+  } else if (msg.content.startsWith(`${prefix}stop`)) {
+    musicHelper.stop(msg);
+    return;
+  } 
 });
 
 client.on('guildMemberAdd', member => {
