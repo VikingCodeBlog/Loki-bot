@@ -15,17 +15,23 @@ if (process.env.NODE_ENV !== 'production') {
 
 //Init mongo database
 const db = require('./src/db/index');
+const prefix = process.env.COMMAND_PREFIX;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
+  if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+
+  const args = msg.content.slice(prefix.length).trim().split(/ +/);
+	const command = args.shift().toLowerCase();
+
+  if (command === 'ping') {
     msg.reply('pong')
   }
 
-  if (msg.content === 'rank') {
+  if (command === 'rank') {
     rankHelper.sendUserRank(msg);
   }
 
