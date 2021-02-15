@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const rankHelper = require('./src/helpers/rankHelper');
+const ratingsHelper = require('./src/helpers/ratingsHelper');
 const welcomeHelper = require('./src/helpers/welcomeHelper');
 const roleHelper = require('./src/helpers/roleHelper');
 
@@ -31,6 +32,14 @@ client.on('message', msg => {
 
   if (msg.content.length >= process.env.MIN_MESSAGE_LENGTH_TO_RANK) {
     rankHelper.checkRank(msg);
+  }
+
+  if (msg.content.startsWith('rate')) {
+    ratingsHelper.rateUser(msg);
+  }
+
+  if (msg.content === 'rating') {
+    ratingsHelper.sendUserRating(msg);
   }
 });
 
