@@ -47,13 +47,6 @@ function getMsgEmbed(weklyUsers, guild, msgEmbed) {
 async function getWeklyUserRanks(guild, msgEmbed) {
     var cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - 7);
-    // weklyUsers = await UserRank.find({
-    //     userId: { $regex: `-${guild.id}`, $options: "i" },
-    //     lastUpdate: { $lt: cutoff }
-    // });
-
-    console.log(UserRating.modelName)
-
     weklyUsers = await UserRank.aggregate([
         { $match: { userId: { $regex: `-${guild.id}`, $options: "i" }, lastUpdate: { $gte: cutoff } } },
         {
