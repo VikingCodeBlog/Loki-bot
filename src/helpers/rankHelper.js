@@ -93,8 +93,8 @@ function checkRank(msg) {
 
 function sendUserRank(msg) {
     getUserRank(msg.member).then((rank) => {
-        const msgRank = process.env.MSGRANK.replace(process.env.MSGRANKKWYWORD, rank[0].rank);
-        msg.reply(msgRank);
+        const MSG_RANK = process.env.MSG_RANK.replace(process.env.MSG_RANK_KEY_WORD, rank[0].rank);
+        msg.reply(MSG_RANK);
     });
 }
 

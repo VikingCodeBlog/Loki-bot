@@ -39,6 +39,8 @@ Create a .env file in your project.
 | MIN_MESSAGE_LENGTH_TO_RANK | Minimum length of comments for loki-bot to take them into account |
 | RANK_ADMINS | Set it to true if you want the bot rank system to work with ADMINS |
 | RANK_BOTS | Set it to true if you want the bot rank system to work with BOTS |
+| MSG_RANK | Message that the bot will send to a user when they ask rank. |
+| MSG_RANK_KEY_WORD | Keyword that will be replaced from the rank message |
 | MSG_LEVELUP | Message that the bot will send to a user when they level up |
 | ANNOUNCE_ROLE_CHANNEL_ID | Channel ID to send a new role message|
 |🙋‍♀️**Welcome new user config:**|
@@ -67,7 +69,8 @@ INCREASE_ROLE_BY_RANK_INTERVAL=10
 MIN_MESSAGE_LENGTH_TO_RANK=5
 ANNOUNCE_ROLE_CHANNEL_ID='37897437473989229'
 MSG_LEVELUP='GG, $USUARIO HAS SUBIDO DE NIVEL!'
-
+MSG_RANK_KEY_WORD=$RANKING
+MSG_RANK=Tu ranking actual es de $RANKING puntos.
 WELCOME_CHANNEL_ID='2983749823749567'
 MSG_WELCOME='Welcome, $USUARIO'
 
