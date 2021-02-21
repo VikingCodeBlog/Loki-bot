@@ -1,56 +1,51 @@
 const UserRating = require('../db/models/userRating');
+const rankHelper = require('../helpers/rankHelper');
 
-const rateUser = async (msg) => {
-  const parsedContent = msg.content.split(' ').filter((fragment) => !!fragment);
+const rateUser = async(msg) => {
+    const parsedContent = msg.content.split(' ').filter((fragment) => !!fragment);
+    const user = msg.mentions.users.first();
 
-  const user = msg.mentions.users.first();
+    const rating = parseInt(parsedContent[2]);
+    const validRating = rating && rating >= 0 && rating <= 5;
+    const reason = parsedContent.slice(3, parsedContent.length).join(' ');
+    if (user && user.id === msg.author.id) {
+        return msg.reply(process.env.MSG_RATING_ERR_SHAME_USER);
+    }
 
-  const rating = parseInt(parsedContent[2]);
-  const validRating = rating && rating >= 0 && rating <= 5;
+    if (!user || !rating || !validRating || !reason) {
+        return msg.reply(process.env.MSG_RATING_ERR_SYNTAX);
+    }
 
-  const reason = parsedContent[3];
+    await UserRating.create({
+        userId: `${user.id}-${msg.guild.id}`,
+        byUserId: msg.author.id,
+        rating,
+        reason,
+    });
 
-  if (!user || user.id === msg.author.id || !rating || !validRating || !reason)
-    return msg.reply(
-      'te equivocaste en la sintaxis del comando, es: `rate @{usuario} {puntuación(0-5)} {razón(< 256 caracteres)}`'
+    rankHelper.increaseUserRankByRating(user, msg.guild, rating);
+    msg.reply(
+        process.env.MSG_NEW_RATING
+        .replace(process.env.MSG_RATING_SCORE_KEY, `${'⭐'.repeat(rating)}`)
+        .replace(process.env.MSG_USER_KEY, `${user.username}`)
     );
-
-  let userRating = await UserRating.findOne({
-    userId: user.id,
-    byUserId: msg.author.id,
-  });
-
-  if (userRating)
-    userRating = await UserRating.findByIdAndUpdate(userRating._id, {
-      rating,
-      reason,
-    });
-  else
-    userRating = await UserRating.create({
-      userId: user.id,
-      byUserId: msg.author.id,
-      rating,
-      reason,
-    });
-
-  console.log(userRating);
-
-  msg.reply(`diste  ${'⭐'.repeat(rating)}  a ${user.username}`);
 };
 
-const sendUserRating = async (msg) => {
-  const userRating = await UserRating.aggregate([
-    { $match: { userId: msg.author.id } },
-    { $group: { _id: '$userId', avgRating: { $avg: '$rating' } } },
-  ]);
+const sendUserRating = async(msg) => {
+    const aggregate = [
+        { $match: { userId: `${msg.author.id}-${msg.guild.id}` } },
+        { $group: { _id: '$userId', avgRating: { $avg: '$rating' } } },
+    ];
 
-  const avgRating = userRating[0]?.avgRating || 0;
+    const userRating = await UserRating.aggregate(aggregate);
 
-  msg.reply(
-    `Tu puntuación actual es de **${avgRating.toFixed(3)}** ${'⭐'.repeat(
-      avgRating
-    )}`
-  );
+    const avgRating = userRating[0] ? userRating[0].avgRating : 0;
+
+    msg.reply(
+        process.env.MSG_RATING.replace(process.env.MSG_RATING_SCORE_KEY, `**${avgRating.toFixed(3)}** ${'⭐'.repeat(
+            avgRating
+          )}`)
+    );
 };
 
 module.exports = { rateUser, sendUserRating };
