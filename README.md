@@ -82,3 +82,8 @@ MSG_NEW_RATING= Diste $SCORE a $USUARIO
 MSG_RATING_ERR_SHAME_USER=No puedes darte ranting a ti mismo, flipao!
 MSG_RATING_ERR_SYNTAX=Te equivocaste en la sintaxis del comando, es: `rate @{usuario} {puntuación(0-5)} {razón(< 256 caracteres)}`
 ```
+## Run docker image
+```
+docker build -t loki-bot .
+docker run -d loki-bot
+```
